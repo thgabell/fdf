@@ -5,7 +5,7 @@ NAME	= fdf
 SRC_PATH = srcs/
 OBJ_PATH = objs/
 
-SRCS	= main.c init.c
+SRCS	= main.c init.c draw.c hook.c
 OBJS	= $(addprefix $(OBJ_PATH), $(SRCS:.c=.o))
 
 INC_ARG = -I./includes
@@ -28,7 +28,7 @@ $(OBJ_PATH):
 	@mkdir $@
 
 $(NAME): $(OBJ_PATH) $(OBJS) $(LIBFT) $(MLX)
-	@$(CC) -g $(CFLAGS) $(OBJS) -o $(NAME) $(LIBFT_FLAGS) $(MLX_FLAGS)
+	@$(CC) -g $(CFLAGS) $(OBJS) -lm -o $(NAME) $(LIBFT_FLAGS) $(MLX_FLAGS)
 	@echo "Creating $@..."
 
 $(OBJ_PATH)%.o: $(SRC_PATH)%.c $(LIBFT) $(MLX)

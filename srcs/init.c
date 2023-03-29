@@ -6,7 +6,7 @@
 /*   By: thgabell <thgabell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 18:14:48 by thgabell          #+#    #+#             */
-/*   Updated: 2023/03/24 19:02:20 by thgabell         ###   ########.fr       */
+/*   Updated: 2023/03/29 21:06:00 by thgabell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,6 +108,7 @@ void	init_fdf(t_fdf *s_fdf)
 	s_fdf->img_height = 1080;
 	s_fdf->img_ptr = mlx_new_image(s_fdf->mlx_ptr, s_fdf->img_width, s_fdf->img_height);
 	s_fdf->addr = mlx_get_data_addr(s_fdf->img_ptr, &s_fdf->bpp, &s_fdf->line_length, &s_fdf->endian);
+	s_fdf->zoom = 20;
 	s_fdf->s_map.width = 0;
 	s_fdf->s_map.height = 0;
 	s_fdf->s_map.points = NULL;

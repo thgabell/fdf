@@ -6,7 +6,7 @@
 /*   By: thgabell <thgabell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 19:39:21 by thgabell          #+#    #+#             */
-/*   Updated: 2023/03/23 18:22:46 by thgabell         ###   ########.fr       */
+/*   Updated: 2023/03/29 19:34:11 by thgabell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,10 @@
 
 # include <fcntl.h>
 # include <stdio.h>
+# include <math.h>
 # include "mlx.h"
 # include "libft.h"
+# include "keys.h"
 
 typedef struct s_map
 {
@@ -33,6 +35,9 @@ typedef struct s_fdf
 	void	*mlx_ptr;
 	void	*win_ptr;
 	void	*img_ptr;
+	int		zoom;
+	int		x_translate;
+	int		y_translate;
 	int		bpp;
 	int		line_length;
 	int		endian;
@@ -41,5 +46,10 @@ typedef struct s_fdf
 
 void	init_fdf(t_fdf *s_fdf);
 int		read_map(t_fdf *s_fdf, char *argv);
+void	draw(t_fdf *s_fdf);
+void	my_mlx_pixel_put(t_fdf *s_fdf, int x, int y, int color);
+int		deal_keyboard(int key, t_fdf *s_fdf);
+int		deal_mouse(int key, int x, int y, t_fdf *s_fdf);
+void	quit(t_fdf *s_fdf);
 
 #endif
