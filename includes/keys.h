@@ -12,6 +12,7 @@
 # define ARROW_UP 65362
 # define WHEEL_UP 4
 # define WHEEL_DOWN 5
+# define SPACE 32
 
 
 #endif

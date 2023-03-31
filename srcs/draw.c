@@ -6,114 +6,79 @@
 /*   By: thgabell <thgabell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 17:44:27 by thgabell          #+#    #+#             */
-/*   Updated: 2023/03/29 19:56:44 by thgabell         ###   ########.fr       */
+/*   Updated: 2023/03/31 17:29:27 by thgabell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
-#define ABS(_x) ((_x) >= 0 ? (_x) : -(_x))
-#define SGN(_x) ((_x) < 0 ? -1 : ((_x) > 0 ? 1 : 0))
 
-void	my_mlx_pixel_put(t_fdf *s_fdf, int x, int y, int color)
+static void	adjust_camera(t_fdf *s_fdf, t_point *p)
 {
-	char	*dst;
-
-	dst = s_fdf->addr + (y * s_fdf->line_length + x * (s_fdf->bpp/ 8));
-	*(unsigned int*)dst = color;
+	p->x = p->x * s_fdf->zoom + s_fdf->x_translate;
+	p->y = p->y * s_fdf->zoom + s_fdf->y_translate;
 }
 
-int	check_limits(t_fdf *s_fdf, int x, int y)
+static void	draw_line(t_fdf *s_fdf, t_point p1, t_point p2)
 {
-	if (s_fdf->img_width - 1 < x || x < 0)
-		return (0);
-	if (s_fdf->img_height - 1 < y || y < 0)
-		return (0);
-	return (1);
-}
+	float	x_step;
+	float	y_step;
+	int		pixels;
+	// int		z;
+	// int		z1;
 
-void draw_line(t_fdf *s_fdf, int x0, int y0, int x1, int y1)
-		{
-			int dx = x1 - x0;
-			int dy = y1 - y0;
-			int incX = SGN(dx);
-			int incY = SGN(dy);
-			dx = ABS(dx);
-			dy = ABS(dy);
-
-			if (dy == 0)
-			{
-				// horizontal line
-				for (int x = x0; x != x1 + incX; x += incX)
-					my_mlx_pixel_put(s_fdf, x, y0, 0xFFFFFF);
-			}
-			else if (dx == 0)
-			{
-				// vertical line
-				for (int y = y0; y != y1 + incY; y += incY)
-					my_mlx_pixel_put(s_fdf, x0, y, 0xFFFFFF);
-			}
-			else if (dx >= dy)
-			{
-				// more horizontal than vertical
-				int slope = 2 * dy;
-				int error = -dx;
-				int errorInc = -2 * dx;
-				int y = y0;
-
-				for (int x = x0; x != x1 + incX; x += incX)
-				{
-					my_mlx_pixel_put(s_fdf, x, y, 0xFFFFFF);
-					error += slope;
-
-					if (error >= 0)
-					{
-						y += incY;
-						error += errorInc;
-					}
-				}
-			}
-			else
-			{
-				// more vertical than horizontal
-				int slope = 2 * dx;
-				int error = -dy;
-				int errorInc = -2 * dy;
-				int x = x0;
-
-				for (int y = y0; y != y1 + incY; y += incY)
-				{
-					my_mlx_pixel_put(s_fdf, x, y, 0xFFFFFF);
-					error += slope;
-
-					if (error >= 0)
-					{
-						x += incX;
-						error += errorInc;
-					}
-				}
-			}
-		}
-
-
-void draw(t_fdf *s_fdf) {
-    int	i;
-	int	j;
-
-	i = 0;
-    while (i < s_fdf->s_map.height)
+	// z = s_fdf->s_map.points[p1.y][p1.x];
+	// z1 = s_fdf->s_map.points[p2.y][p2.x];
+	adjust_camera(s_fdf, &p1);
+	adjust_camera(s_fdf, &p2);
+	x_step = p2.x - p1.x;
+	y_step = p2.y - p1.y;
+	pixels = sqrt((x_step * x_step) + (y_step * y_step));
+	x_step /= pixels;
+	y_step /= pixels;
+	while (pixels >= 0)
 	{
-		j = 0;
-        while (j < s_fdf->s_map.width)
+		if (check_border(s_fdf, p1.x, p1.y))
+			my_mlx_pixel_put(s_fdf, p1.x, p1.y, 0x00FFFFFF);
+		p1.x += x_step;
+		p1.y += y_step;
+		pixels--;
+	}
+}
+
+static void	draw_map(t_fdf *s_fdf, t_point p1, t_point p2)
+{
+	if (p1.x < s_fdf->s_map.width - 1)
+	{
+		p2.x = p1.x + 1;
+		p2.y = p1.y;
+		draw_line(s_fdf, p1, p2);
+	}
+	if (p1.y < s_fdf->s_map.height - 1)
+	{
+		p2.x = p1.x;
+		p2.y = p1.y + 1;
+		draw_line(s_fdf, p1, p2);
+	}
+}
+
+void	draw(t_fdf *s_fdf)
+{
+	t_point	p1;
+	t_point	p2;
+
+	p1.y = 0;
+	p2.x = 0;
+	p2.y = 0;
+	while (p1.y < s_fdf->s_map.height)
+	{
+		p1.x = 0;
+		while (p1.x < s_fdf->s_map.width)
 		{
-			if (j < s_fdf->s_map.width - 1) {
-				draw_line(s_fdf, j * s_fdf->zoom + s_fdf->x_translate, i * s_fdf->zoom + s_fdf->y_translate, (j + 1) * s_fdf->zoom + s_fdf->x_translate, i * s_fdf->zoom + s_fdf->y_translate);
-			}
-			if (i < s_fdf->s_map.height - 1) {
-				draw_line(s_fdf, j * s_fdf->zoom + s_fdf->x_translate, i * s_fdf->zoom + s_fdf->y_translate, j * s_fdf->zoom + s_fdf->x_translate, (i + 1) * s_fdf->zoom + s_fdf->y_translate);
-			}
-			j++;
-        }
-		i++;
-    }
-	mlx_put_image_to_window(s_fdf->mlx_ptr, s_fdf->win_ptr, s_fdf->img_ptr, 0, 0);
+			draw_map(s_fdf, p1, p2);
+			p1.x++;
+		}
+		p1.y++;
+	}
+	mlx_put_image_to_window(s_fdf->mlx_ptr, \
+							s_fdf->win_ptr, s_fdf->img_ptr, 0, 0);
 }

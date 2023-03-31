@@ -6,7 +6,7 @@
 /*   By: thgabell <thgabell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 18:14:48 by thgabell          #+#    #+#             */
-/*   Updated: 2023/03/29 21:06:00 by thgabell         ###   ########.fr       */
+/*   Updated: 2023/03/31 17:23:33 by thgabell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,10 +82,7 @@ int	read_map(t_fdf *s_fdf, char *argv)
 	{
 		line = get_next_line(fd);
 		if (line == NULL && s_fdf->s_map.height == 0)
-		{
-			ft_putstr_fd("Invalid file.", 1);
-			return (0);
-		}	
+			quit_error("Invalid file.", s_fdf);
 		if (line == NULL)
 			break ;
 		splited = ft_split(line, ' ');
@@ -106,8 +103,10 @@ void	init_fdf(t_fdf *s_fdf)
 	s_fdf->win_ptr = mlx_new_window(s_fdf->mlx_ptr, 1920, 1080, "FDF");
 	s_fdf->img_width = 1920;
 	s_fdf->img_height = 1080;
-	s_fdf->img_ptr = mlx_new_image(s_fdf->mlx_ptr, s_fdf->img_width, s_fdf->img_height);
-	s_fdf->addr = mlx_get_data_addr(s_fdf->img_ptr, &s_fdf->bpp, &s_fdf->line_length, &s_fdf->endian);
+	s_fdf->img_ptr = mlx_new_image(s_fdf->mlx_ptr, \
+					s_fdf->img_width, s_fdf->img_height);
+	s_fdf->addr = mlx_get_data_addr(s_fdf->img_ptr, &s_fdf->bpp, \
+					&s_fdf->line_length, &s_fdf->endian);
 	s_fdf->zoom = 20;
 	s_fdf->s_map.width = 0;
 	s_fdf->s_map.height = 0;

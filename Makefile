@@ -5,7 +5,7 @@ NAME	= fdf
 SRC_PATH = srcs/
 OBJ_PATH = objs/
 
-SRCS	= main.c init.c draw.c hook.c
+SRCS	= main.c init.c draw.c hook.c draw_utils.c
 OBJS	= $(addprefix $(OBJ_PATH), $(SRCS:.c=.o))
 
 INC_ARG = -I./includes
