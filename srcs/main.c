@@ -53,10 +53,8 @@ int	main(int argc, char **argv)
 	init_fdf(s_fdf);
 	if (read_map(s_fdf, argv[1]))
 	{
-		s_fdf->x_translate = (s_fdf->img_width / 2) \
-							- ((s_fdf->s_map.width * s_fdf->zoom) / 2);
-		s_fdf->y_translate = (s_fdf->img_height / 2) \
-							- ((s_fdf->s_map.height * s_fdf->zoom));
+		s_fdf->x_translate = 0;
+		s_fdf->y_translate = 0;
 		printf("%d", s_fdf->y_translate);
 		draw(s_fdf);
 		mlx_hook(s_fdf->win_ptr, 2, (1L << 0), deal_keyboard, s_fdf);
