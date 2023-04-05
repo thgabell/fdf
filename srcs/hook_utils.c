@@ -8,6 +8,24 @@ void	new_image(t_fdf *s_fdf)
 	draw(s_fdf);
 }
 
+void	center(t_fdf *s_fdf)
+{
+	if (s_fdf->iso)
+	{
+		s_fdf->x_translate = (s_fdf->img_width / 2);
+		s_fdf->y_translate = (s_fdf->img_height / 2) \
+		- (s_fdf->s_map.height * s_fdf->zoom / 2);
+	}
+	else
+	{
+		s_fdf->x_translate = (s_fdf->img_width / 2) \
+		- (s_fdf->s_map.width * s_fdf->zoom / 2);
+		s_fdf->y_translate = (s_fdf->img_height / 2) \
+		- (s_fdf->s_map.height * s_fdf->zoom / 2);
+	}
+	new_image(s_fdf);
+}
+
 void	flatten(t_fdf *s_fdf, int key)
 {
 	if (key == U)

@@ -3,14 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thgabell <thgabell@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 16:50:47 by thgabell          #+#    #+#             */
-/*   Updated: 2023/03/31 17:25:12 by thgabell         ###   ########.fr       */
+/*   Updated: 2023/04/05 19:48:18 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
+
+static void	scale(t_fdf *s_fdf)
+{
+	while (s_fdf->img_width * s_fdf->img_height < \
+			s_fdf->s_map.width * s_fdf->s_map.height * s_fdf->zoom)
+		s_fdf->zoom--;
+}
 
 void	quit_error(char *str, t_fdf *s_fdf)
 {
@@ -53,9 +60,8 @@ int	main(int argc, char **argv)
 	init_fdf(s_fdf);
 	if (read_map(s_fdf, argv[1]))
 	{
-		s_fdf->x_translate = 0;
-		s_fdf->y_translate = 0;
-		printf("%d", s_fdf->y_translate);
+		scale(s_fdf);
+		center(s_fdf);
 		draw(s_fdf);
 		mlx_hook(s_fdf->win_ptr, 2, (1L << 0), deal_keyboard, s_fdf);
 		mlx_hook(s_fdf->win_ptr, 17, 0, quit, s_fdf);

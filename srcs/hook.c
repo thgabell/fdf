@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hook.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thgabell <thgabell@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 17:12:20 by thgabell          #+#    #+#             */
-/*   Updated: 2023/03/31 17:16:09 by thgabell         ###   ########.fr       */
+/*   Updated: 2023/04/05 19:49:23 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,11 @@ int	deal_keyboard(int key, t_fdf *s_fdf)
 			s_fdf->iso = 0;
 		else
 			s_fdf->iso = 1;
+		center(s_fdf);
 		new_image(s_fdf);
 	}
+	else if (key == SPACE)
+		center(s_fdf);
 	ft_putnbr_fd(key, 1);
 	ft_putstr_fd("\n", 1);
 	return (0);

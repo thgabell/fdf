@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   draw.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thgabell <thgabell@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 17:44:27 by thgabell          #+#    #+#             */
-/*   Updated: 2023/03/31 17:29:27 by thgabell         ###   ########.fr       */
+/*   Updated: 2023/04/05 20:59:39 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,27 +30,30 @@ static void	adjust_camera(t_fdf *s_fdf, t_point *p)
 	p->y += s_fdf->y_translate;
 }
 
-static void	draw_line(t_fdf *s_fdf, t_point p1, t_point p2)
+static void	draw_line(t_fdf *s_fdf, t_point start, t_point end)
 {
 	float	x_step;
 	float	y_step;
 	int		pixels;
+	t_point	cur;
 
-	p1.z = s_fdf->s_map.points[(int)p1.y][(int)p1.x] / s_fdf->z_divisor;
-	p2.z = s_fdf->s_map.points[(int)p2.y][(int)p2.x] / s_fdf->z_divisor;
-	adjust_camera(s_fdf, &p1);
-	adjust_camera(s_fdf, &p2);
-	x_step = p2.x - p1.x;
-	y_step = p2.y - p1.y;
+	start.z = s_fdf->s_map.points[(int)start.y][(int)start.x] \
+				/ s_fdf->z_divisor;
+	end.z = s_fdf->s_map.points[(int)end.y][(int)end.x] / s_fdf->z_divisor;
+	adjust_camera(s_fdf, &start);
+	adjust_camera(s_fdf, &end);
+	x_step = end.x - start.x;
+	y_step = end.y - start.y;
 	pixels = sqrt((x_step * x_step) + (y_step * y_step));
 	x_step /= pixels;
 	y_step /= pixels;
+	cur = start;
 	while (pixels >= 0)
 	{
-		if (check_border(s_fdf, p1.x, p1.y))
-			my_mlx_pixel_put(s_fdf, (int)p1.x, (int)p1.y, 0x00FFFFFF);
-		p1.x += x_step;
-		p1.y += y_step;
+		if (check_border(s_fdf, cur.x, cur.y))
+			my_mlx_pixel_put(s_fdf, (int)cur.x, (int)cur.y, 0x00FFFFFF);
+		cur.x += x_step;
+		cur.y += y_step;
 		pixels--;
 	}
 }

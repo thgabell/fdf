@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fdf.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thgabell <thgabell@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 19:39:21 by thgabell          #+#    #+#             */
-/*   Updated: 2023/03/31 17:28:08 by thgabell         ###   ########.fr       */
+/*   Updated: 2023/04/05 20:58:31 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ typedef struct s_point
 	float	x;
 	float	y;
 	float	z;
+	int		color;
 }	t_point;
 
 typedef struct s_map
@@ -45,8 +46,8 @@ typedef struct s_fdf
 	float	z_divisor;
 	int		iso;
 	int		zoom;
-	int		x_translate;
-	int		y_translate;
+	float	x_translate;
+	float	y_translate;
 	int		color;
 	int		bpp;
 	int		line_length;
@@ -70,6 +71,7 @@ int		check_border(t_fdf *s_fdf, int x, int y);
 void	zoom(t_fdf *s_fdf, int key);
 void	translate(t_fdf *s_fdf, int key);
 void	flatten(t_fdf *s_fdf, int key);
+void	center(t_fdf *s_fdf);
 
 void	new_image(t_fdf *s_fdf);
 

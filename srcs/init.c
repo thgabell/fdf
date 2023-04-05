@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thgabell <thgabell@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 18:14:48 by thgabell          #+#    #+#             */
-/*   Updated: 2023/03/31 17:23:33 by thgabell         ###   ########.fr       */
+/*   Updated: 2023/04/05 20:49:14 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,8 +109,6 @@ void	init_fdf(t_fdf *s_fdf)
 					&s_fdf->line_length, &s_fdf->endian);
 	s_fdf->z_divisor = 1;
 	s_fdf->iso = 1;
-	s_fdf->x_translate = 0;
-	s_fdf->y_translate = 0;
 	s_fdf->zoom = 20;
 	s_fdf->s_map.width = 0;
 	s_fdf->s_map.height = 0;
