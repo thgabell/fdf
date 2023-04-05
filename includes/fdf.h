@@ -42,6 +42,8 @@ typedef struct s_fdf
 	void	*mlx_ptr;
 	void	*win_ptr;
 	void	*img_ptr;
+	float	z_divisor;
+	int		iso;
 	int		zoom;
 	int		x_translate;
 	int		y_translate;
@@ -58,9 +60,17 @@ void	draw(t_fdf *s_fdf);
 void	my_mlx_pixel_put(t_fdf *s_fdf, int x, int y, int color);
 int		deal_keyboard(int key, t_fdf *s_fdf);
 int		deal_mouse(int key, int x, int y, t_fdf *s_fdf);
-void	quit(t_fdf *s_fdf);
+int		quit(t_fdf *s_fdf);
 void    center_map(t_fdf *s_fdf);
 void	quit_error(char *str, t_fdf *s_fdf);
 int		check_border(t_fdf *s_fdf, int x, int y);
+
+/* CONTROLS */
+
+void	zoom(t_fdf *s_fdf, int key);
+void	translate(t_fdf *s_fdf, int key);
+void	flatten(t_fdf *s_fdf, int key);
+
+void	new_image(t_fdf *s_fdf);
 
 #endif

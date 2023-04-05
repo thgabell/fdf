@@ -19,7 +19,7 @@ void	quit_error(char *str, t_fdf *s_fdf)
 	exit (1);
 }
 
-void	quit(t_fdf *s_fdf)
+int	quit(t_fdf *s_fdf)
 {
 	if (s_fdf->img_ptr)
 	{
@@ -58,6 +58,7 @@ int	main(int argc, char **argv)
 		printf("%d", s_fdf->y_translate);
 		draw(s_fdf);
 		mlx_hook(s_fdf->win_ptr, 2, (1L << 0), deal_keyboard, s_fdf);
+		mlx_hook(s_fdf->win_ptr, 17, 0, quit, s_fdf);
 		mlx_mouse_hook(s_fdf->win_ptr, deal_mouse, s_fdf);
 		mlx_loop(s_fdf->mlx_ptr);
 	}

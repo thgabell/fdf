@@ -19,10 +19,13 @@ static void	adjust_camera(t_fdf *s_fdf, t_point *p)
 
 	p->x *= s_fdf->zoom;
 	p->y *= s_fdf->zoom;
-	prev_x = p->x;
-	prev_y = p->y;
-	p->x = (prev_x - prev_y) * cos(0.523599);
-	p->y = -p->z + (prev_x + prev_y) * sin(0.523599);
+	if (s_fdf->iso)
+	{		
+		prev_x = p->x;
+		prev_y = p->y;
+		p->x = (prev_x - prev_y) * cos(0.523599);
+		p->y = -p->z + (prev_x + prev_y) * sin(0.523599);
+	}
 	p->x += s_fdf->x_translate;
 	p->y += s_fdf->y_translate;
 }
@@ -33,8 +36,8 @@ static void	draw_line(t_fdf *s_fdf, t_point p1, t_point p2)
 	float	y_step;
 	int		pixels;
 
-	p1.z = s_fdf->s_map.points[(int)p1.y][(int)p1.x];
-	p2.z = s_fdf->s_map.points[(int)p2.y][(int)p2.x];
+	p1.z = s_fdf->s_map.points[(int)p1.y][(int)p1.x] / s_fdf->z_divisor;
+	p2.z = s_fdf->s_map.points[(int)p2.y][(int)p2.x] / s_fdf->z_divisor;
 	adjust_camera(s_fdf, &p1);
 	adjust_camera(s_fdf, &p2);
 	x_step = p2.x - p1.x;

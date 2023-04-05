@@ -13,6 +13,9 @@
 # define WHEEL_UP 4
 # define WHEEL_DOWN 5
 # define SPACE 32
+# define U 117
+# define D 100
+# define TAB 65289
 
 
 #endif
