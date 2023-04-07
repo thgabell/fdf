@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 17:44:27 by thgabell          #+#    #+#             */
-/*   Updated: 2023/04/05 20:59:39 by marvin           ###   ########.fr       */
+/*   Updated: 2023/04/06 18:00:28 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ static void	adjust_camera(t_fdf *s_fdf, t_point *p)
 
 	p->x *= s_fdf->zoom;
 	p->y *= s_fdf->zoom;
+	p->z *= s_fdf->zoom;
 	if (s_fdf->iso)
 	{		
 		prev_x = p->x;
